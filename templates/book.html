@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Book Appointment</h2>
+
+<form method="POST" class="form-card">
+
+    <label>Select Doctor</label>
+    {% set ns = namespace(current_spec='') %}
+    <select name="doctor_id" id="doctor_select" required>
+        <option value="">-- Choose a Doctor --</option>
+        {% for doctor in doctors %}
+            {% if doctor['specialization'] != ns.current_spec %}
+                {% if ns.current_spec != '' %}</optgroup>{% endif %}
+                <optgroup label="── {{ doctor['specialization'] }} ──">
+                {% set ns.current_spec = doctor['specialization'] %}
+            {% endif %}
+            <option value="{{ doctor['id'] }}"
+                data-fee="{{ doctor['consultation_fee'] }}"
+                {% if form and form.get('doctor_id') == doctor['id']|string %}selected{% endif %}>
+                {{ doctor['name'] }} — ₹{{ doctor['consultation_fee']|int }}
+            </option>
+        {% endfor %}
+        </optgroup>
+    </select>
+
+    <div id="fee-display" style="display:none; background:#f0f9ff; border:1px solid #bae6fd;
+         padding:10px 14px; border-radius:8px; margin-top:6px; color:#0369a1; font-weight:600;">
+        💳 Consultation Fee: <span id="fee-amount"></span>
+    </div>
+
+    <label>Patient Name</label>
+    <input type="text" name="patient_name" value="{{ form.get('patient_name', '') }}" required>
+
+    <label>Age</label>
+    <input type="number" name="age" min="0" value="{{ form.get('age', '') }}" required>
+
+    <label>Gender</label>
+    <select name="gender" required>
+        <option value="">Select</option>
+        <option value="Male"   {% if form.get('gender') == 'Male' %}selected{% endif %}>Male</option>
+        <option value="Female" {% if form.get('gender') == 'Female' %}selected{% endif %}>Female</option>
+        <option value="Other"  {% if form.get('gender') == 'Other' %}selected{% endif %}>Other</option>
+    </select>
+
+    <label>Phone</label>
+    <input type="text" name="phone" value="{{ form.get('phone', '') }}" required>
+
+    <label>Appointment Date</label>
+    <input type="date" name="appointment_date" value="{{ form.get('appointment_date', '') }}" required>
+
+    <label>Appointment Time</label>
+    <select name="appointment_time" required>
+        <option value="">-- Select Time Slot --</option>
+        {% set slots = ['09:00','09:30','10:00','10:30','11:00','11:30',
+                        '12:00','14:00','14:30','15:00','15:30','16:00','16:30'] %}
+        {% for slot in slots %}
+            <option value="{{ slot }}"
+                {% if form.get('appointment_time') == slot %}selected{% endif %}>
+                {{ slot }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label>Reason for Visit</label>
+    <textarea name="reason" rows="4" required>{{ form.get('reason', '') }}</textarea>
+
+    <div class="checkbox-row">
+        <input type="checkbox" name="is_emergency" id="is_emergency"
+            {% if form.get('is_emergency') %}checked{% endif %}>
+        <label for="is_emergency">Emergency Case</label>
+    </div>
+
+    <button type="submit" class="btn">Proceed to Payment →</button>
+</form>
+
+<script>
+    const select = document.getElementById('doctor_select');
+    const feeBox = document.getElementById('fee-display');
+    const feeAmt = document.getElementById('fee-amount');
+
+    select.addEventListener('change', function () {
+        const opt = this.options[this.selectedIndex];
+        const fee = opt.getAttribute('data-fee');
+        if (fee) {
+            feeAmt.textContent = '₹' + parseInt(fee);
+            feeBox.style.display = 'block';
+        } else {
+            feeBox.style.display = 'none';
+        }
+    });
+</script>
+{% endblock %}

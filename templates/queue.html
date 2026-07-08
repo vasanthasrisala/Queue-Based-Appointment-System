@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Current Patient Queue</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Queue No</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Reason</th>
+            <th>Priority</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for appointment in appointments %}
+        <tr class="{% if appointment['is_emergency'] == 1 %}emergency-row{% endif %}">
+            <td>{{ loop.index }}</td>
+            <td>{{ appointment['patient_name'] }}</td>
+            <td>{{ appointment['age'] }}</td>
+            <td>{{ appointment['gender'] }}</td>
+            <td>{{ appointment['appointment_date'] }}</td>
+            <td>{{ appointment['appointment_time'] }}</td>
+            <td>{{ appointment['reason'] }}</td>
+            <td>
+                {% if appointment['is_emergency'] == 1 %}
+                    Emergency
+                {% else %}
+                    Normal
+                {% endif %}
+            </td>
+            <td>{{ appointment['status'] }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="9">No appointments in queue.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

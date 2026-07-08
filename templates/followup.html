@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Create Follow-up Appointment</h2>
+
+<div class="form-card">
+    <p><strong>Patient:</strong> {{ appointment['patient_name'] }}</p>
+    <p><strong>Original Date:</strong> {{ appointment['appointment_date'] }}</p>
+    <p><strong>Reason:</strong> {{ appointment['reason'] }}</p>
+
+    <form method="POST">
+        <label>Number of daily follow-up appointments (1 to 7)</label>
+        <input type="number" name="followup_days" min="1" max="7" required>
+
+        <button type="submit" class="btn">Create Follow-up</button>
+    </form>
+</div>
+{% endblock %}

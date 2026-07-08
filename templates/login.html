@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Login</h2>
+
+<div class="form-card auth-card">
+    <form method="POST">
+        <label>Username</label>
+        <input type="text" name="username" required placeholder="Enter your username">
+
+        <label>Password</label>
+        <input type="password" name="password" required placeholder="Enter your password">
+
+        <button type="submit" class="btn" style="margin-top:16px; width:100%;">Login</button>
+    </form>
+
+    <p class="auth-switch">Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+</div>
+{% endblock %}

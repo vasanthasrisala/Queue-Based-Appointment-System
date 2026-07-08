@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero">
+    <h1>Patient Appointment Scheduling System</h1>
+    <p>
+        A queue-based appointment system that manages patients using FIFO,
+        with emergency patients getting highest priority.
+    </p>
+    <div class="hero-buttons">
+        <a href="{{ url_for('book') }}" class="btn">Book Appointment</a>
+        <a href="{{ url_for('queue') }}" class="btn btn-secondary">View Queue</a>
+    </div>
+</div>
+
+<div class="features">
+    <div class="card">
+        <h3>FIFO Queue</h3>
+        <p>Normal patients are handled in first-in first-out order.</p>
+    </div>
+    <div class="card">
+        <h3>Emergency Priority</h3>
+        <p>Emergency patients are moved ahead in the queue for faster treatment.</p>
+    </div>
+    <div class="card">
+        <h3>Follow-up Scheduling</h3>
+        <p>Doctors can create daily follow-up appointments up to 7 days.</p>
+    </div>
+</div>
+{% endblock %}

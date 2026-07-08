@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width:560px; margin:40px auto; text-align:center;">
+
+    <div style="font-size:64px; margin-bottom:10px;">✅</div>
+    <h2 style="color:#16a34a; margin-bottom:4px;">Payment Successful!</h2>
+    <p style="color:#64748b;">Your appointment has been confirmed.</p>
+
+    <!-- Receipt Card -->
+    <div class="form-card" style="text-align:left; margin-top:24px;">
+        <h3 style="margin-bottom:16px; color:#1e40af;">🧾 Payment Receipt</h3>
+        <table style="width:100%; border-collapse:collapse; font-size:15px;">
+            <tr>
+                <td style="padding:8px 0; color:#64748b; width:170px;">Transaction ID</td>
+                <td style="font-weight:700; color:#0f172a; font-family:monospace;">{{ data['transaction_id'] }}</td>
+            </tr>
+            <tr>
+                <td style="padding:8px 0; color:#64748b;">Payment Method</td>
+                <td style="text-transform:capitalize;">{{ data['payment_method'] }}</td>
+            </tr>
+            <tr>
+                <td style="padding:8px 0; color:#64748b;">Amount Paid</td>
+                <td style="font-weight:700; color:#16a34a; font-size:18px;">₹{{ data['amount']|int }}</td>
+            </tr>
+            <tr>
+                <td style="padding:8px 0; color:#64748b;">Paid On</td>
+                <td>{{ data['paid_at'] }}</td>
+            </tr>
+
+            <tr><td colspan="2"><hr style="margin:12px 0; border-color:#e2e8f0;"></td></tr>
+
+            <tr>
+                <td style="padding:8px 0; color:#64748b;">Patient Name</td>
+                <td style="font-weight:600;">{{ data['patient_name'] }}</td>
+            </tr>
+            <tr>
+                <td style="padding:8px 0; color:#64748b;">Doctor</td>
+                <td style="font-weight:600;">{{ data['doctor_name'] }}</td>
+            </tr>
+            <tr>
+                <td style="padding:8px 0; color:#64748b;">Specialization</td>
+                <td>{{ data['specialization'] }}</td>
+            </tr>
+            <tr>
+                <td style="padding:8px 0; color:#64748b;">Appointment Date</td>
+                <td>{{ data['appointment_date'] }}</td>
+            </tr>
+            <tr>
+                <td style="padding:8px 0; color:#64748b;">Appointment Time</td>
+                <td>{{ data['appointment_time'] }}</td>
+            </tr>
+            <tr>
+                <td style="padding:8px 0; color:#64748b;">Reason</td>
+                <td>{{ data['reason'] }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="display:flex; gap:12px; justify-content:center; margin-top:20px;">
+        <a href="{{ url_for('queue') }}" class="btn">View Queue</a>
+        <a href="{{ url_for('book') }}" class="btn" style="background:#64748b;">Book Another</a>
+    </div>
+</div>
+{% endblock %}

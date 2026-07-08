@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Doctor Panel</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Reason</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for appointment in appointments %}
+        <tr class="{% if appointment['is_emergency'] == 1 %}emergency-row{% endif %}">
+            <td>{{ appointment['id'] }}</td>
+            <td>{{ appointment['patient_name'] }}</td>
+            <td>{{ appointment['appointment_date'] }}</td>
+            <td>{{ appointment['appointment_time'] }}</td>
+            <td>{{ appointment['reason'] }}</td>
+            <td>
+                {% if appointment['is_emergency'] == 1 %}
+                    Emergency
+                {% else %}
+                    Normal
+                {% endif %}
+            </td>
+            <td>{{ appointment['status'] }}</td>
+            <td>
+                {% if appointment['status'] == 'Waiting' %}
+                <form method="POST" style="display:inline;">
+                    <input type="hidden" name="appointment_id" value="{{ appointment['id'] }}">
+                    <input type="hidden" name="action" value="complete">
+                    <button type="submit" class="btn-small complete-btn">Complete</button>
+                </form>
+
+                <form method="POST" style="display:inline;">
+                    <input type="hidden" name="appointment_id" value="{{ appointment['id'] }}">
+                    <input type="hidden" name="action" value="cancel">
+                    <button type="submit" class="btn-small cancel-btn">Cancel</button>
+                </form>
+
+                <a href="{{ url_for('followup', appointment_id=appointment['id']) }}" class="btn-small followup-btn">Add Follow-up</a>
+                {% else %}
+                No Actions
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
